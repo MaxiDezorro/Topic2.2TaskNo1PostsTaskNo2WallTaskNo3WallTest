@@ -1,3 +1,4 @@
+import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertTrue
 import ru.netology.*
 import kotlin.test.Test
@@ -5,6 +6,10 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 
 class WallServiceTest {
+    @Before
+    fun clearBeforeTest() {
+        WallService.clear()
+    }
 
     @Test
     fun updateTrue() {
@@ -132,7 +137,7 @@ class WallServiceTest {
 
         val result = service.add(
             Post(
-                0,
+                1,
                 2222,
                 "post add",
                 comments = Comments(1, true, false),
