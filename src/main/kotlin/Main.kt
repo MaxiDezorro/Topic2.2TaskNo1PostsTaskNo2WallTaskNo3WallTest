@@ -17,9 +17,9 @@ data class Post(
     val id: Int, // id поста
     val fromId: Int, // id автора записи
     val text: String,
-    val like: Likes,
+    val like: Likes?,
     val comments: Comments,
-    val repost: Repost,
+    val repost: Repost?,
     val canEdit: Boolean,
     val canDelete: Boolean
 )
@@ -36,9 +36,9 @@ object WallService {
     fun add(post: Post): Post {
         posts += post.copy(
             id = ++lastId,
-            like = post.like.copy(),
+            like = post.like?.copy(),
             comments = post.comments.copy(),
-            repost = post.repost.copy()
+            repost = post.repost?.copy()
         )
         return posts.last()
     }
@@ -46,9 +46,9 @@ object WallService {
     fun update(newPost: Post): Boolean {
         for ((index, post) in posts.withIndex()) {
             if (post.id == newPost.id) {
-                posts[index] = newPost.copy(like = post.like.copy(),
+                posts[index] = newPost.copy(like = post.like?.copy(),
                     comments = post.comments.copy(),
-                    repost = post.repost.copy())
+                    repost = post.repost?.copy())
                 return true
             }
 
