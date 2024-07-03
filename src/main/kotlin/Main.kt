@@ -17,13 +17,40 @@ data class Post(
     val id: Int, // id поста
     val fromId: Int, // id автора записи
     val text: String,
-    val like: Likes,
+    val like: Likes?,
     val comments: Comments,
-    val repost: Repost,
+    val repost: Repost?,
     val canEdit: Boolean,
-    val canDelete: Boolean
+    val canDelete: Boolean,
+    val attachment: Array<Attachment> = arrayOf(AudioAttachment(
+        "Аудиозапись",
+        Audio(
+            1,
+            2,
+            "Petya",
+            "hit",
+            300
+        )
+    ), VideoAttachment(
+        "Видеозапись",
+        Video(
+            1,
+            2,
+            2,
+            "Funny cats",
+            500
+        )
+    ), PhotoAttachment(
+        "Фотография",
+        Photo(
+            1,
+            2,
+            "My photo",
+            "hollyday",
+            22052024
+        )
+    ))
 )
-
 object WallService {
     private var posts = emptyArray<Post>()
     private var lastId = 0
@@ -36,9 +63,9 @@ object WallService {
     fun add(post: Post): Post {
         posts += post.copy(
             id = ++lastId,
-            like = post.like.copy(),
+            like = post.like?.copy(),
             comments = post.comments.copy(),
-            repost = post.repost.copy()
+            repost = post.repost?.copy()
         )
         return posts.last()
     }
@@ -46,9 +73,9 @@ object WallService {
     fun update(newPost: Post): Boolean {
         for ((index, post) in posts.withIndex()) {
             if (post.id == newPost.id) {
-                posts[index] = newPost.copy(like = post.like.copy(),
+                posts[index] = newPost.copy(like = post.like?.copy(),
                     comments = post.comments.copy(),
-                    repost = post.repost.copy())
+                    repost = post.repost?.copy())
                 return true
             }
 
